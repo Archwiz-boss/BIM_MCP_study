@@ -17,6 +17,9 @@
 
 Enable AI language models to directly control Autodesk Revit via Model Context Protocol (MCP), achieving AI-driven BIM workflows.
 
+> [!NOTE]
+> **Optional Archicad MCP:** Revit MCP and Archicad MCP can run side by side. After cloning, follow [Archicad MCP installation and environment setup](./docs/integrations/archicad-mcp.md); the third-party runtime is version-pinned and does not replace Revit MCP.
+
 **🎥 Demo Video: [Revit MCP - AI-Powered BIM Workflow Demonstration](https://youtu.be/YpAYF-GxrhA)**
 
 ---

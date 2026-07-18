@@ -5,6 +5,7 @@
 | 目錄 | 用途 | 讀者 |
 |------|------|------|
 | **`docs/BIM_MCP/`** | 公開知識站（10 頁：架構、22 命題、決策框架、Skill/Domain 索引） | 任何人 |
+| **`docs/integrations/`** | 外部 MCP runtime 的安裝、版本固定與疑難排解 | 使用者 + 維護者 |
 | **`docs/_archive/`** | 開發歷程歸檔（design notes / bug post-mortems / 舊 handoff） | 維護者 |
 | **`domain/`** | 領域知識與工作流程 SOP | AI Agent |
 | **`教材/`** | 教學講義、投影片、學習筆記 | 學生 / 老師 |
@@ -115,6 +116,7 @@
 | 如何一步步執行某任務（給 AI） | `domain/` |
 | 業務規則和法規注意事項 | `domain/` |
 | 公開知識站新頁 | `docs/BIM_MCP/reference/` |
+| 外部 MCP 安裝與環境設置 | `docs/integrations/` |
 | 月度簡報 / hands-on 教材 | `docs/BIM_MCP/YYYY-MM/` |
 | 教學講義或學習筆記 | `教材/` |
 | 新的斜線命令儀式 | `.claude/commands/` |

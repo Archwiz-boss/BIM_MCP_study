@@ -9,6 +9,16 @@
             "env": {
                 "REVIT_VERSION": "2024"
             }
+        },
+        "archicad-mcp": {
+            "type": "stdio",
+            "command": "uvx",
+            "args": [
+                "--from",
+                "tapir-archicad-mcp==0.4.3",
+                "archicad-server"
+            ],
+            "env": {}
         }
     }
 }

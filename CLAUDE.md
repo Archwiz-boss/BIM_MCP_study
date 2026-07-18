@@ -270,7 +270,7 @@ Skills 位於 `.claude/skills/`，每個 Skill 為一個資料夾 + `SKILL.md`�
 
 ## AI Client Setup
 
-All AI clients connect to the MCP Server via the same config format. Replace `{absolute-path}` with your actual project path.
+All AI clients use the same MCP config structure. Revit MCP and the optional Archicad MCP runtime are separate servers and may run side by side. Replace `{absolute-path}` with your actual project path.
 
 ```json
 {
@@ -278,6 +278,10 @@ All AI clients connect to the MCP Server via the same config format. Replace `{a
     "revit-mcp": {
       "command": "node",
       "args": ["{absolute-path}/MCP-Server/build/index.js"]
+    },
+    "archicad-mcp": {
+      "command": "uvx",
+      "args": ["--from", "tapir-archicad-mcp==0.4.3", "archicad-server"]
     }
   }
 }
@@ -292,6 +296,18 @@ All AI clients connect to the MCP Server via the same config format. Replace `{a
 
 > Run `npm run build` in `MCP-Server/` before first use. Verify port 8964 is free.
 
+### Optional Archicad MCP Runtime (Phase 1)
+
+- Setup guide: `docs/integrations/archicad-mcp.md`
+- macOS: `./scripts/setup-archicad-mcp.sh`
+- Windows: `powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1`
+- Runtime is pinned to `tapir-archicad-mcp==0.4.3`; do not silently change to an unpinned/latest version.
+- The three public entry tools are `discovery_list_active_archicads`, `archicad_discover_tools`, and `archicad_call_tool`.
+- Always select and retain one Archicad instance `port` before dispatching an internal command.
+- Revit ElementId values and Archicad GUID values are different namespaces. Never pass identifiers or tool results from one server into the other.
+- This phase installs and exposes the runtime only. Existing Skills remain Revit workflows until an explicit Archicad adapter is added and tested for that Skill.
+- Do not vendor or modify the third-party runtime inside this repository. If custom runtime code becomes necessary, use a reviewed fork pinned to a commit and preserve the upstream MIT notice.
+
 ## Troubleshooting
 
 | Symptom | Cause | Fix |
@@ -301,6 +317,8 @@ All AI clients connect to the MCP Server via the same config format. Replace `{a
 | MCP Server connection failed | Wrong path or not built | Check absolute path in config, re-run `npm run build`, verify port 8964 free |
 | Port 8964 被 System (PID: 4) 佔用 | Revit 異常關閉後 HTTP.sys 孤兒 Request Queue | 執行 `scripts\release-port.ps1`，或手動：`net stop http /y && net start http` |
 | Commands not responding in Revit | Revit UI thread issue | Ensure `ExternalEventManager` is used; check `%AppData%\RevitMCP\Logs\` |
+| `archicad-mcp` cannot start | `uv` missing or pinned package unresolved | Run `scripts/setup-archicad-mcp.*`; see `docs/integrations/archicad-mcp.md` |
+| Archicad instance list is empty | Archicad project closed or incompatible/missing Tapir Add-On | Open a project, verify the Add-On, then restart the MCP client |
 
 ## Domain Knowledge & Workflow Files（36 個）
 

@@ -17,6 +17,9 @@
 
 透過 Model Context Protocol (MCP) 讓 AI 語言模型直接控制 Autodesk Revit，實現 AI 驅動的 BIM 工作流程。
 
+> [!NOTE]
+> **Archicad MCP（選用）**：本專案可讓 Revit MCP 與 Archicad MCP 並列運行。Clone 後請依 [Archicad MCP 安裝與環境設置](./docs/integrations/archicad-mcp.md) 執行跨平台 setup；第三方 runtime 使用固定版本，不會覆寫 Revit MCP。
+
 **🎥 示範影片：[Revit MCP - AI 驅動的 BIM 工作流程示範](https://youtu.be/YpAYF-GxrhA)**
 
 **📚 知識站：<https://shuotao.github.io/REVIT_MCP_study/>** — 三層架構 / 22 命題 / 決策框架 / 全 36 Domain + 19 Skill + 84 Tool 視覺化索引

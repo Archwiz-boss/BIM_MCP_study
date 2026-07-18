@@ -7,6 +7,16 @@
         "./MCP-Server/build/index.js"
       ],
       "env": {}
+    },
+    "archicad-mcp": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "tapir-archicad-mcp==0.4.3",
+        "archicad-server"
+      ],
+      "env": {}
     }
   }
 }
