@@ -6,6 +6,17 @@
 
 ---
 
+## [Unreleased]
+
+### 新增：選用 Archicad MCP 整合層
+
+- 新增 `setup-archicad-mcp` Skill 與跨平台 setup wrappers，支援固定 runtime 驗證、opt-in project/user config 合併及可逆停用。
+- 新增 `archicad-skill-adapter` Skill 與 Revit→Archicad 名詞／識別碼轉譯參考。
+- 新增 Archicad 安裝文件與第三方授權聲明。
+- 預設 `.mcp.json`、`.vscode/mcp.json` 維持 Revit-only；既有 Revit MCP source、port、build 與 deployment 流程均未修改。
+
+---
+
 ## [1.5.2] - 2026-07-16
 
 ### 🐛 Bug 修正（PowerShell 部署腳本）

@@ -18,6 +18,8 @@ Talk to Revit in plain language. Ask your AI client to *"dimension every wall on
 
 **Who it's for:** BIM engineers and architects who use Revit and want AI-assisted, standards-based workflows. You'll need Revit (2022–2026) on Windows and to be comfortable installing an add-in.
 
+Archicad users can opt in to a separate, version-pinned Archicad MCP runtime. It does not replace or modify the Revit MCP implementation; see [Optional Archicad MCP](#optional-archicad-mcp).
+
 ## Quickstart (3 steps)
 
 1. **Install the Revit add-in.** Build and deploy the C# add-in — see [Manual Setup](#manual-setup). This is the half that actually talks to Revit.
@@ -35,7 +37,7 @@ Questions or want to show what you built? → **[Discussions](https://github.com
 |---|---:|---|
 | Runtime MCP tools | 166 | `registerRevitTools()` in `MCP-Server/src/tools/index.ts` |
 | Domain SOP files | 72 | `domain/*.md` except `README.md`, plus `domain/references/*.md` |
-| Claude skills | 50 | `.claude/skills/*/SKILL.md` |
+| Claude skills | 52 | `.claude/skills/*/SKILL.md` |
 
 When these numbers change, update `CLAUDE.md`, `README.zh-TW.md`, this file, `docs/DOCUMENT_AUDIENCE_INVENTORY.md`, and run:
 
@@ -93,6 +95,25 @@ powershell -ExecutionPolicy Bypass -File scripts/setup.ps1 -NonInteractive -Revi
 ```
 
 The setup script checks prerequisites, installs dependencies, builds the MCP server, builds and deploys the Revit add-in, and helps configure common AI clients.
+
+## Optional Archicad MCP
+
+Archicad support is disabled by default. The repository configs remain Revit-only until an Archicad user explicitly runs:
+
+```bash
+./scripts/setup-archicad-mcp.sh
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1
+```
+
+The setup resolves pinned `tapir-archicad-mcp==0.4.3` and adds a separate `archicad-mcp` entry without changing `revit-mcp`. Archicad and a compatible Tapir Add-On must be installed separately.
+
+- Installation and rollback: [Archicad MCP setup guide](docs/integrations/archicad-mcp.md)
+- Installation Skill: `.claude/skills/setup-archicad-mcp/`
+- BIM terminology and workflow adapter: `.claude/skills/archicad-skill-adapter/`
+- Third-party notice: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ## Install from MCP Registry
 
@@ -192,6 +213,8 @@ VS Code config in `.vscode/mcp.json`:
   }
 }
 ```
+
+These committed project configs intentionally remain Revit-only. Archicad users opt in with `scripts/setup-archicad-mcp.*`; disabling it removes only the `archicad-mcp` key.
 
 Other AI clients use the same concept: launch `MCP-Server/build/index.js` with `node`.
 

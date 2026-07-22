@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup Archicad MCP"
+  short_description: "Install optional Archicad MCP safely"
+  default_prompt: "Use $setup-archicad-mcp to configure and verify the optional Archicad MCP runtime without changing Revit MCP."

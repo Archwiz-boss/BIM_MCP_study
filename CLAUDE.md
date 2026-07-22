@@ -35,7 +35,7 @@ These counts must be derived from source, not copied by memory.
 |---|---:|---|
 | Runtime MCP tools | 166 | `registerRevitTools()` from `MCP-Server/src/tools/index.ts` |
 | Domain SOP files | 72 | `domain/*.md` except `domain/README.md`, plus `domain/references/*.md` |
-| Claude skills | 50 | `.claude/skills/*/SKILL.md` |
+| Claude skills | 52 | `.claude/skills/*/SKILL.md` |
 
 When these numbers change, update `CLAUDE.md`, `README.md`, `README.zh-TW.md`, `docs/DOCUMENT_AUDIENCE_INVENTORY.md`, and any public site copy that makes grand-total claims. Then run `scripts/verify-qaqc.ps1 -SkipBuild -SkipDeploy`.
 
@@ -114,6 +114,10 @@ If pulling the 2026-07-17 cleanup commit fails with "local changes would be over
 | `MCP-Server/src/tools/revit-tools.ts` | Execution bridge from tool name to Revit command |
 | `bridge/python/skills/ezdxf_worker.py` | Optional Python subprocess (spawned by `DwgColumnExecutor`) that reads DXF/DWG text for column-number mapping (`dwg-column-import` mode C). Needs system Python + `ezdxf`; DWG additionally needs ODA File Converter. Deployed to `%APPDATA%\RevitMCP` by `install-addon.ps1`. |
 | `scripts/verify-qaqc.ps1` | Repository QA/QC gate |
+| `scripts/setup-archicad-mcp.*` | Optional Archicad runtime enable/disable and validation wrappers |
+| `.claude/skills/setup-archicad-mcp/` | Archicad MCP installation and rollback orchestration |
+| `.claude/skills/archicad-skill-adapter/` | Revit-oriented BIM intent to Archicad discovery/call adapter |
+| `.agents/skills/{setup-archicad-mcp,archicad-skill-adapter}/` | Codex discovery mirrors that redirect to the canonical `.claude/skills/` workflows |
 | `docs/DOCUMENT_AUDIENCE_INVENTORY.md` | Canonical AI/human/shared document classification |
 | `.claude-plugin/marketplace.json` | Plugin marketplace manifest — packages shareable skills (currently `hj-pr-proposal`) as installable plugins for `/plugin marketplace add` → `/plugin install`. |
 
@@ -313,7 +317,7 @@ Meta and governance domain files:
 
 ## Skills
 
-The canonical skill catalog is the .claude/skills/ directory itself (50 skills; count table above is the gate).
+The canonical skill catalog is the .claude/skills/ directory itself (52 skills; count table above is the gate).
 
 Use the smallest relevant skill set. If a skill and a domain file conflict on the method, the domain file wins.
 
@@ -337,9 +341,22 @@ Use `full` unless a constrained client context explicitly needs a smaller tool s
 
 See README.md / README.zh-TW.md "AI Client Configuration" for the full per-client setup. Config templates live in `MCP-Server/*_config.json`.
 
+### Optional Archicad Backend
+
+Archicad support is opt-in and runs as a separate MCP stdio server. The committed `.mcp.json` and `.vscode/mcp.json` remain Revit-only.
+
+- Install or remove it with `.claude/skills/setup-archicad-mcp/` and `scripts/setup-archicad-mcp.*`.
+- Translate an existing BIM workflow with `.claude/skills/archicad-skill-adapter/`.
+- Preserve Revit MCP source, port `8964`, setup/deployment scripts, and `revit-mcp` config unchanged.
+- Never mix Revit `ElementId` values with Archicad GUID values or reuse an Archicad port from an earlier turn.
+- For Archicad, discover the current internal command schema before dispatch; do not treat Revit tool names as Archicad API contracts.
+- This adapter preserves Domain methods but does not guarantee that every Revit operation has an Archicad equivalent.
+
 ## Troubleshooting
 
 See `docs/troubleshoot-first-install.md` for the full walkthrough. Port `8964` stuck on HTTP.sys: run `scripts/release-port.ps1`.
+
+For the optional Archicad runtime, use `docs/integrations/archicad-mcp.md`. Configuration alone does not prove a live Archicad/Tapir connection.
 
 ## QA/QC
 

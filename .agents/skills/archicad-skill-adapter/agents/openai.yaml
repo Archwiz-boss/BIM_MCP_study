@@ -1,0 +1,4 @@
+interface:
+  display_name: "Archicad Skill Adapter"
+  short_description: "Translate BIM skills safely to Archicad"
+  default_prompt: "Use $archicad-skill-adapter to translate this BIM workflow to Archicad while preserving backend and identifier boundaries."

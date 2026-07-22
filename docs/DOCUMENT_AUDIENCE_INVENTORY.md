@@ -17,7 +17,7 @@ This inventory defines which project documents are for AI agents, human readers,
 |---|---:|---|
 | Runtime MCP tools | 166 | `registerRevitTools()` |
 | Domain SOP files | 72 | `domain/*.md` except README, plus `domain/references/*.md` |
-| Claude skills | 50 | `.claude/skills/*/SKILL.md` |
+| Claude skills | 52 | `.claude/skills/*/SKILL.md` |
 
 ## AI-Only Documents
 
@@ -30,6 +30,7 @@ These should be English-first.
 | `GEMINI.md` | redirect | Must contain only `CLAUDE.md` |
 | `.claude/commands/*.md` | command docs | Slash-command behavior |
 | `.claude/skills/*/SKILL.md` | skill docs | AI orchestration; migrate gradually to English while preserving exact local BIM terms |
+| `.agents/skills/*/SKILL.md` | Codex skill mirrors | Keep thin mirrors aligned with their canonical `.claude/skills/` workflows |
 | `.github/copilot-instructions.md` | AI rules if present | Must align with `CLAUDE.md` |
 | `.mcp.json` | machine config | Project-level MCP server config |
 | `.vscode/mcp.json` | machine config | VS Code MCP server config |
@@ -59,6 +60,8 @@ These must remain understandable by both sides.
 | `pyRevit_Tools/README.md` | pyRevit users | pyRevit-specific notes |
 | `docs/BIM_MCP/**` | public knowledge site | Teaching and visual explanations |
 | `docs/troubleshoot-first-install.md` | users | First-install troubleshooting |
+| `docs/integrations/archicad-mcp.md` | Archicad users | Optional runtime installation, rollback, and validation |
+| `THIRD_PARTY_NOTICES.md` | users and maintainers | External runtime provenance and declared licensing |
 | `docs/slides.md` | presenters | Slide index |
 | `Antigravity_MCP_Complete_Guide.md` | Antigravity users | Manual MCP setup for Antigravity client |
 | `docs/UPDATE-PULL-GUIDE.md`, `docs/branch-index.md` | users and maintainers | Update flow and branch overview |

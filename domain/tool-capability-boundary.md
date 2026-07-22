@@ -3,15 +3,18 @@ name: tool-capability-boundary
 description: "MCP 工具能力邊界定義表：定義目前 MCP 工具的不可達邊界（如連結模型元素不可查詢等），讓 AI 在收到相關請求時立即告知使用者限制而非反覆嘗試。當使用者提到連結模型、linked model、結構、能力邊界、boundary、找不到元素、0 結果時觸發。"
 metadata:
   version: "1.0"
-  updated: "2026-03-10"
+  updated: "2026-07-22"
   created: "2026-03-10"
   contributors:
     - "Admin"
-  references: []  # TODO: 月小聚補法規條號或外部依據
+  references:
+    - "https://github.com/SzamosiMate/tapir-archicad-MCP"
   related: []  # TODO: 月小聚補相關 domain（檔名）
   referenced_by:
     - element-coloring
-  tags: [連結模型, linked model, 結構, structural, 邊界, 能力, boundary, 找不到元素]
+    - setup-archicad-mcp
+    - archicad-skill-adapter
+  tags: [連結模型, linked model, 結構, structural, 邊界, 能力, boundary, 找不到元素, Archicad, backend]
 ---
 
 # MCP 工具能力邊界定義表
@@ -117,6 +120,19 @@ metadata:
 | **未來方案** | (i) MCP-Server 端加 health-check / heartbeat；(ii) Tool timeout 後自動嘗試 RestartServer；(iii) RevitMCP 面板顯示連線狀態 LED + 最後一次成功 ping 時間戳 |
 
 **lesson 起源**：5/22 dry-run 中段，連續 2 次 `get_active_view` timeout。AI 拒絕假裝知道視圖狀態繼續執行 override（Branch C 啟動），等使用者修復連線後 re-anchor。修復方式是使用者在 Revit 點一下視圖（隱式 active focus 重建）。
+
+### L10: 多 Backend Namespace 隔離（Revit / Archicad）
+
+| 項目 | 詳細說明 |
+|------|------|
+| **限制** | Revit MCP 與 Archicad MCP 是兩個獨立 server。Revit `ElementId`、Archicad element GUID、Archicad instance port、類別／元素型別、參數／Property、內部單位與座標系統都不是可直接互換的 namespace。 |
+| **典型場景** | 使用者希望把既有 Revit-oriented Skill 套到 Archicad，或同一個 AI Client 同時看得到 `revit-mcp` 與 `archicad-mcp`。 |
+| **辨識方式** | 執行鏈開始前先確認目標 application；Archicad 需在本 turn 取得 live instance port，Revit 需依 active-state re-anchoring 取得當前 document/view。每個 identifier 都保留來源 backend。 |
+| **AI 應對策略** | 保留 Domain 的 BIM 方法，但透過 backend adapter 重新 discovery 工具與 schema。不得把 Revit tool name 當成 Archicad command，不得把 ElementId 改名為 GUID，不得沿用另一個 Archicad port 的結果。 |
+| **單位邊界** | Revit internal feet 的換算規則不能自動套到 Archicad。Archicad arguments 與結果一律依當次 discovery 回傳的 schema／說明判讀；未標示單位時停止並要求確認。 |
+| **寫入驗證** | 兩個 backend 的 mutation 都必須以同一 backend 的 read-back 驗證。Archicad 寫入以本 turn 選定 port + GUID 回讀；Revit 仍依既有 MCP tool 與 Transaction 邊界驗證。 |
+| **能力缺口** | 若 Archicad discovery 找不到 Domain 某一步所需能力，標示該步 `unsupported` 並停止該 mutation，不得改呼叫 Revit 工具補做，也不得猜測 raw JSON API payload。 |
+| **安裝邊界** | Repository 預設 config 維持 Revit-only。只有使用者主動 opt in 才加入獨立的 `archicad-mcp` entry；停用時只移除該 entry。 |
 
 ---
 

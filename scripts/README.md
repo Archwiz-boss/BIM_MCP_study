@@ -2,6 +2,26 @@
 
 此資料夾包含自動安裝 Revit MCP Add-in 的指令稿。
 
+## 選用 Archicad MCP（不影響 Revit）
+
+Archicad runtime 預設不啟用。Archicad 使用者可執行：
+
+```bash
+./scripts/setup-archicad-mcp.sh
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1
+```
+
+它只會在套件驗證成功後，把獨立的 `archicad-mcp` key 加到 project configs；原有 `revit-mcp` object、Revit Add-in、port `8964` 與 Revit 安裝腳本均不修改。停用：
+
+```bash
+./scripts/setup-archicad-mcp.sh --disable-project
+```
+
+完整說明見 `docs/integrations/archicad-mcp.md`。
+
 ## 🔒 安全設計
 
 這些指令稿經過安全審查，採用以下安全措施：

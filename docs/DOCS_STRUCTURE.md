@@ -15,6 +15,7 @@ This file explains the purpose of the documentation folders. For the AI/human/sh
 | `.claude/commands/` | AI-only | Slash-command behavior |
 | `.claude/skills/` | AI-only | AI workflow orchestration |
 | `docs/BIM_MCP/` | Human-facing | Public knowledge site source |
+| `docs/integrations/` | Human-facing | Optional external MCP runtime setup and boundaries |
 | `docs/_archive/` | Historical | Old notes, handoffs, reviews, and snapshots |
 | `scripts/` | Human + maintainer | Setup, deployment, QA/QC scripts |
 | `log/` | Shared history | Append-only event and session log |
@@ -78,6 +79,7 @@ Default handling:
 | If you are adding... | Put it in... |
 |---|---|
 | Installation instructions | `README.md`, `README.zh-TW.md`, or `scripts/README.md` |
+| Optional external MCP setup | `docs/integrations/` |
 | AI behavior rules | `CLAUDE.md` or `.claude/commands/` |
 | Reusable AI workflow | `.claude/skills/{skill}/SKILL.md` |
 | BIM calculation method or regulation workflow | `domain/*.md` |

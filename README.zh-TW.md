@@ -18,6 +18,8 @@ Revit MCP 透過 Model Context Protocol (MCP) 讓 AI Client 呼叫 Revit 工具�
 
 **給誰用：** 使用 Revit、想要 AI 輔助且符合規範的 BIM 工程師與建築師。你需要 Windows 上的 Revit（2022–2026），並願意安裝一個 add-in。
 
+Archicad 使用者可以選擇啟用獨立且固定版本的 Archicad MCP runtime。它不會取代或修改 Revit MCP；詳見[選用的 Archicad MCP](#選用的-archicad-mcp)。
+
 ## 三步開始
 
 1. **安裝 Revit add-in。** 編譯並部署 C# add-in——見[手動安裝](#手動安裝)。這是真正跟 Revit 對話的那半邊。
@@ -35,7 +37,7 @@ Revit MCP 透過 Model Context Protocol (MCP) 讓 AI Client 呼叫 Revit 工具�
 |---|---:|---|
 | Runtime MCP tools | 166 | `MCP-Server/src/tools/index.ts` 的 `registerRevitTools()` |
 | Domain SOP files | 72 | `domain/*.md` 扣除 `README.md`，加上 `domain/references/*.md` |
-| Claude skills | 50 | `.claude/skills/*/SKILL.md` |
+| Claude skills | 52 | `.claude/skills/*/SKILL.md` |
 
 如果這些數字改變，請同步更新 `CLAUDE.md`、本 README、`README.md`、`docs/DOCUMENT_AUDIENCE_INVENTORY.md`，並執行：
 
@@ -93,6 +95,25 @@ powershell -ExecutionPolicy Bypass -File scripts/setup.ps1 -NonInteractive -Revi
 ```
 
 腳本會檢查環境、安裝相依套件、編譯 MCP Server、編譯並部署 Revit Add-in，並協助設定常見 AI Client。
+
+## 選用的 Archicad MCP
+
+Archicad 支援預設停用。Repository 內建設定仍是 Revit-only；只有 Archicad 使用者主動執行下列 setup 才會啟用：
+
+```bash
+./scripts/setup-archicad-mcp.sh
+```
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1
+```
+
+setup 會解析固定版本 `tapir-archicad-mcp==0.4.3`，並新增獨立的 `archicad-mcp` entry，不會改動 `revit-mcp`。Archicad 與相容的 Tapir Add-On 必須另外安裝。
+
+- 安裝與復原：[Archicad MCP 安裝指南](docs/integrations/archicad-mcp.md)
+- 安裝 Skill：`.claude/skills/setup-archicad-mcp/`
+- BIM 名詞與 workflow adapter：`.claude/skills/archicad-skill-adapter/`
+- 第三方聲明：[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
 
 ## 從 MCP Registry 安裝
 
@@ -192,6 +213,8 @@ VS Code 設定在 `.vscode/mcp.json`：
   }
 }
 ```
+
+這兩份已提交的 project config 刻意維持 Revit-only。Archicad 使用者透過 `scripts/setup-archicad-mcp.*` opt in；停用時只會移除 `archicad-mcp` key。
 
 其他 AI Client 的核心概念相同：使用 `node` 啟動 `MCP-Server/build/index.js`。
 
