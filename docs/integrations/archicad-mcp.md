@@ -118,8 +118,28 @@ powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1 -Disable
 - 安裝與環境問題：`setup-archicad-mcp`
 - 把既有 BIM_MCP workflow 轉給 Archicad：`archicad-skill-adapter`
 - 詳細名詞對照：`.claude/skills/archicad-skill-adapter/references/revit-archicad-terminology.md`
+- 52 個 Skill 的可攜性狀態與 live-test trace：[Revit／Archicad Skill 可攜性矩陣](archicad-skill-portability.md)
+- 第一批 pilot：`element-query`、`room-numbering`、`quantity-takeoff-excel`
 
 adapter 只轉譯可驗證的 BIM 意圖，不保證每個 Revit tool 都有 Archicad 等價命令。找不到能力時必須回報缺口，不可猜測 API。
+
+### 確認是否真的載入 Skill／Domain
+
+Archicad MCP 能讀取或操作模型，只能證明 MCP capability 已連通。若要確認 BIM_MCP Skill 有參與，要求 Agent 在操作前後回報：
+
+```text
+backend
+canonical_skill
+domain_method
+adapter_reference
+project_port
+discovered_commands
+identifier_type
+verification
+unsupported_steps
+```
+
+完整測試 prompt 與判定方式見[可攜性矩陣](archicad-skill-portability.md#如何證明有用到-skill-與-domain)。
 
 ## 版本與授權
 

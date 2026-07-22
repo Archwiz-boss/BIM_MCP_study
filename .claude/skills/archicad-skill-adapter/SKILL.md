@@ -1,15 +1,31 @@
 ---
 name: archicad-skill-adapter
-description: "Translates Revit-oriented BIM Skill intent and terminology into a guarded Archicad MCP discovery-and-dispatch workflow while preserving the original Domain method. Use when applying BIM_MCP Skills to Archicad, selecting an Archicad backend, mapping Revit terms, or handling Revit→Archicad 轉譯、名詞對照、GUID、Story、Zone、Layout、Tapir。"
+description: "Translates Revit-oriented BIM Skill intent and terminology into a guarded Archicad MCP workflow while preserving the original Domain method and Revit route. Use when applying BIM_MCP Skills to Archicad, selecting a BIM backend, querying Archicad elements, numbering Zones, producing Archicad quantity takeoffs, or handling Revit→Archicad 轉譯、名詞對照、GUID、Story、Zone、Layout、Tapir。"
 ---
 
 # Archicad Skill Adapter
 
-Use existing BIM_MCP Domain knowledge and workflow intent with an Archicad backend. Translate orchestration only; never pretend that similarly named Revit and Archicad objects are API-equivalent.
+Use existing BIM_MCP Domain knowledge and workflow intent with an Archicad backend. Translate orchestration only; never pretend that similarly named Revit and Archicad objects are API-equivalent. This Skill is an opt-in branch, not a replacement for any Revit workflow.
+
+## Portability Contract
+
+- An explicit Revit target follows the originating Skill's existing Revit workflow unchanged.
+- An explicit Archicad target follows this adapter and the matching pilot reference, when one exists.
+- If both backends are connected and the target is ambiguous, ask before reading or writing either model.
+- A portability status is a routing decision, not proof that the installed Archicad runtime exposes every required capability.
+
+| Originating Skill | Archicad status | Required reference |
+|---|---|---|
+| `element-query` | Pilot: read path, optional highlight | [pilot-element-query.md](references/pilot-element-query.md) |
+| `room-numbering` | Pilot: guarded write with dry-run | [pilot-room-numbering.md](references/pilot-room-numbering.md) |
+| `quantity-takeoff-excel` | Pilot: evidence-first read/report path | [pilot-quantity-takeoff-excel.md](references/pilot-quantity-takeoff-excel.md) |
+
+For every other Skill, consult `docs/integrations/archicad-skill-portability.md`. Do not infer support from a similar object name.
 
 ## Hard Boundaries
 
 - Use one backend for each operation chain. Do not send Archicad identifiers to Revit tools or Revit identifiers to Archicad tools.
+- Do not alter or bypass the originating Skill's Revit route when Revit is selected.
 - Preserve the selected Archicad instance `port` throughout the current chain.
 - Discover the current Archicad command and schema before dispatch. Internal command names are not a stable Skill contract.
 - Preserve the original Domain method, formulas, exclusions, and decision gates.
@@ -84,5 +100,8 @@ For an existing element-query workflow and the user request `查出 Archicad 目
 ## Reference
 
 - [Revit to Archicad terminology](references/revit-archicad-terminology.md)
+- [Element query pilot](references/pilot-element-query.md)
+- [Room and Zone numbering pilot](references/pilot-room-numbering.md)
+- [Quantity takeoff Excel pilot](references/pilot-quantity-takeoff-excel.md)
 - `domain/tool-capability-boundary.md`
 - `domain/skill-authoring-standard.md`

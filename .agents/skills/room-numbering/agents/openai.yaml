@@ -1,0 +1,4 @@
+interface:
+  display_name: "Room / Zone 編號"
+  short_description: "以 dry-run 與驗證安全重編 Room 或 Zone"
+  default_prompt: "Use $room-numbering to select Revit Rooms or Archicad Zones, show an exact dry-run, obtain approval, write, and verify without mixing identifiers."

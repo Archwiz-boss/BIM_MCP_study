@@ -61,6 +61,7 @@ These must remain understandable by both sides.
 | `docs/BIM_MCP/**` | public knowledge site | Teaching and visual explanations |
 | `docs/troubleshoot-first-install.md` | users | First-install troubleshooting |
 | `docs/integrations/archicad-mcp.md` | Archicad users | Optional runtime installation, rollback, and validation |
+| `docs/integrations/archicad-skill-portability.md` | BIM_MCP contributors and testers | Revit/Archicad Skill support boundary, pilot status, and evidence trace |
 | `THIRD_PARTY_NOTICES.md` | users and maintainers | External runtime provenance and declared licensing |
 | `docs/slides.md` | presenters | Slide index |
 | `Antigravity_MCP_Complete_Guide.md` | Antigravity users | Manual MCP setup for Antigravity client |

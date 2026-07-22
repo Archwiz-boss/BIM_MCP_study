@@ -13,6 +13,8 @@
 - 新增 `setup-archicad-mcp` Skill 與跨平台 setup wrappers，支援固定 runtime 驗證、opt-in project/user config 合併及可逆停用。
 - 新增 `archicad-skill-adapter` Skill 與 Revit→Archicad 名詞／識別碼轉譯參考。
 - 新增 Archicad 安裝文件與第三方授權聲明。
+- 新增 52 個 canonical Skills 的 Revit／Archicad 可攜性矩陣，區分可直接共用、需要 adapter 與 backend-specific。
+- 新增 `element-query`、`room-numbering`、`quantity-takeoff-excel` 三個 Archicad pilot routing／驗證規格及 Agy/Codex mirrors；Revit 路徑維持原流程。
 - 預設 `.mcp.json`、`.vscode/mcp.json` 維持 Revit-only；既有 Revit MCP source、port、build 與 deployment 流程均未修改。
 
 ---

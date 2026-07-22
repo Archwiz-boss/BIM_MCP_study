@@ -111,6 +111,7 @@ powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1
 setup 會解析固定版本 `tapir-archicad-mcp==0.4.3`，並新增獨立的 `archicad-mcp` entry，不會改動 `revit-mcp`。Archicad 與相容的 Tapir Add-On 必須另外安裝。
 
 - 安裝與復原：[Archicad MCP 安裝指南](docs/integrations/archicad-mcp.md)
+- Skill 可攜性與 pilot 狀態：[Revit／Archicad 可攜性矩陣](docs/integrations/archicad-skill-portability.md)
 - 安裝 Skill：`.claude/skills/setup-archicad-mcp/`
 - BIM 名詞與 workflow adapter：`.claude/skills/archicad-skill-adapter/`
 - 第三方聲明：[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)

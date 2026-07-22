@@ -1,0 +1,4 @@
+interface:
+  display_name: "BIM 元素查詢"
+  short_description: "依 Revit 或 Archicad backend 查詢並驗證 BIM 元素"
+  default_prompt: "Use $element-query to select the Revit or Archicad backend and run the canonical explore-align-extract workflow with backend-safe identifiers."

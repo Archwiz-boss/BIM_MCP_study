@@ -1,11 +1,19 @@
 ---
 name: quantity-takeoff-excel
-description: "Create or review auditable Revit quantity-takeoff Excel reports for partition walls, baseboards, interior wall finishes, room schedules, and scaffolding. Use when the user asks for 數量計算、算量、輕隔間 Excel、踢腳 Excel、內牆粉刷 Excel、空間表更新 Excel、施工架數量、room perimeter、opening deductions、net height, or wants an existing pyRevit takeoff method reused through RevitMCP."
+description: "Creates or reviews auditable BIM quantity-takeoff Excel reports while preserving source identifiers, formulas, units, relationship evidence, and warnings across Revit and the opt-in Archicad backend. Use for 數量計算、算量、輕隔間 Excel、踢腳 Excel、內牆粉刷 Excel、空間表、Zone 表、施工架數量、quantity takeoff、room or Zone perimeter、opening deductions、net height."
 ---
 
-# Revit Quantity Takeoff Excel
+# BIM Quantity Takeoff Excel
 
-Use current-turn Revit data and produce an auditable calculation, not an unexplained total.
+Use current-turn model data and produce an auditable calculation, not an unexplained total.
+
+## Backend Routing
+
+1. Honor an explicit Revit or Archicad target.
+2. If both backends are connected and the target is ambiguous, ask which application and project to use.
+3. For Revit, continue with the existing Revit workflow below without changing its API evidence rules, ElementIds, formulas, or workbook behavior.
+4. For Archicad, read `../archicad-skill-adapter/SKILL.md` and `../archicad-skill-adapter/references/pilot-quantity-takeoff-excel.md`. Use Zone GUIDs, discovered properties, explicit units, and only verified boundary/relationship evidence.
+5. Do not present an Archicad pilot result as equivalent to a Revit takeoff when required inputs remain unresolved.
 
 ## Route The Request
 
@@ -22,6 +30,8 @@ Choose the calculation family before querying data:
 | Exterior scaffold | user-verified detail-line or filled-region perimeter × specified height |
 
 Use a more specific skill when one exists, especially `partition-takeoff` or `scaffold-takeoff`. Apply this skill for the shared data, Excel, and validation rules.
+
+## Revit Workflow
 
 ## Query Current Revit State
 
@@ -106,3 +116,20 @@ When material names come from a selected material-board family, remove prefixes 
 6. Report counts for boundary fallbacks, height fallbacks, deducted openings, skipped openings, missing sizes, missing hosts, and missing heights.
 
 Do not report completion when unresolved warnings could materially change the quantity.
+
+## 工具 / Tools
+
+| Tool | Purpose |
+|---|---|
+| `get_rooms_by_level` | Collect Revit room records for the requested level. |
+| `query_elements_with_filter` | Collect current Revit elements using verified fields. |
+| `get_element_info` | Retain detailed Revit source evidence for selected elements. |
+| `discovery_list_active_archicads` | Anchor a live Archicad project and port. |
+| `archicad_discover_tools` | Resolve Zone, boundary, relationship, and property reads. |
+| `archicad_call_tool` | Dispatch the discovered Archicad command. |
+
+## Reference
+
+- Revit method: `domain/quantity-takeoff-excel.md`
+- Archicad adapter: `../archicad-skill-adapter/SKILL.md`
+- Archicad pilot: `../archicad-skill-adapter/references/pilot-quantity-takeoff-excel.md`

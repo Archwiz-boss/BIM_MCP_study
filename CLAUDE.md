@@ -117,7 +117,8 @@ If pulling the 2026-07-17 cleanup commit fails with "local changes would be over
 | `scripts/setup-archicad-mcp.*` | Optional Archicad runtime enable/disable and validation wrappers |
 | `.claude/skills/setup-archicad-mcp/` | Archicad MCP installation and rollback orchestration |
 | `.claude/skills/archicad-skill-adapter/` | Revit-oriented BIM intent to Archicad discovery/call adapter |
-| `.agents/skills/{setup-archicad-mcp,archicad-skill-adapter}/` | Codex discovery mirrors that redirect to the canonical `.claude/skills/` workflows |
+| `.agents/skills/` | Agy/Codex discovery mirrors; Archicad pilots redirect to canonical `element-query`, `room-numbering`, and `quantity-takeoff-excel` workflows |
+| `docs/integrations/archicad-skill-portability.md` | Revit/Archicad portability status, pilot scope, and live-test trace contract |
 | `docs/DOCUMENT_AUDIENCE_INVENTORY.md` | Canonical AI/human/shared document classification |
 | `.claude-plugin/marketplace.json` | Plugin marketplace manifest — packages shareable skills (currently `hj-pr-proposal`) as installable plugins for `/plugin marketplace add` → `/plugin install`. |
 
@@ -347,6 +348,7 @@ Archicad support is opt-in and runs as a separate MCP stdio server. The committe
 
 - Install or remove it with `.claude/skills/setup-archicad-mcp/` and `scripts/setup-archicad-mcp.*`.
 - Translate an existing BIM workflow with `.claude/skills/archicad-skill-adapter/`.
+- Treat `docs/integrations/archicad-skill-portability.md` as the current support boundary. Only `element-query`, `room-numbering`, and `quantity-takeoff-excel` have formal Archicad pilot routes.
 - Preserve Revit MCP source, port `8964`, setup/deployment scripts, and `revit-mcp` config unchanged.
 - Never mix Revit `ElementId` values with Archicad GUID values or reuse an Archicad port from an earlier turn.
 - For Archicad, discover the current internal command schema before dispatch; do not treat Revit tool names as Archicad API contracts.

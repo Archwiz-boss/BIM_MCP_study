@@ -1,9 +1,19 @@
 ---
 name: room-numbering
-description: "房間重新排序編號與批次自動編號工作流。使用者提到房間編號、房間重新排序、room numbering、renumber rooms、自動編號、從 B134 開始、只排 B1F 等需求時使用。優先工具：renumber_rooms_by_level、get_active_view、get_rooms_by_level。"
+description: "Renumbers Revit Rooms or Archicad Zones with a guarded sort→dry-run→approve→write→verify workflow. Use when the user asks for 房間編號、Zone 編號、房間重新排序、自動編號、room numbering、zone numbering、renumber rooms, a starting value such as B134, or a single Level/Story scope."
 ---
 
-# 房間重新排序編號
+# Room / Zone 重新排序編號
+
+## Backend Routing
+
+1. Honor an explicit Revit or Archicad target.
+2. If both backends are connected and the target is ambiguous, ask which application and project to use.
+3. For Revit, continue with the existing Revit workflow below; its batch tool, transaction, ElementIds, Level handling, and verification remain unchanged.
+4. For Archicad, read `../archicad-skill-adapter/SKILL.md` and `../archicad-skill-adapter/references/pilot-room-numbering.md`. Translate Room→Zone and Level→Story only after runtime discovery, use GUIDs, and obtain explicit approval for the exact dry-run table.
+5. Never move identifiers, property names, or a dry-run result between backends.
+
+## Revit Workflow
 
 使用此 Skill 時，先讀 `domain/room-numbering-workflow.md`，並遵守該 SOP 的排序、dry-run、寫入與驗證規則。
 
@@ -39,7 +49,20 @@ description: "房間重新排序編號與批次自動編號工作流。使用者
 - `MCP-Server` 已重新 build
 - Revit 與 MCP Server 已重啟
 
+## 工具 / Tools
+
+| Tool | Purpose |
+|---|---|
+| `get_active_view` | Re-anchor the current Revit document and view. |
+| `renumber_rooms_by_level` | Revit dry-run and transactional batch write. |
+| `get_rooms_by_level` | Verify Revit room numbers after the write. |
+| `discovery_list_active_archicads` | Anchor a live Archicad project and port. |
+| `archicad_discover_tools` | Resolve Zone reads, geometry, and property writes to current schemas. |
+| `archicad_call_tool` | Dispatch the discovered Archicad command. |
+
 ## Reference
 
 - `domain/room-numbering-workflow.md`
 - `domain/lessons.md`
+- `../archicad-skill-adapter/SKILL.md`
+- `../archicad-skill-adapter/references/pilot-room-numbering.md`

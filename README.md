@@ -111,6 +111,7 @@ powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1
 The setup resolves pinned `tapir-archicad-mcp==0.4.3` and adds a separate `archicad-mcp` entry without changing `revit-mcp`. Archicad and a compatible Tapir Add-On must be installed separately.
 
 - Installation and rollback: [Archicad MCP setup guide](docs/integrations/archicad-mcp.md)
+- Skill portability and pilot status: [Revit/Archicad portability matrix](docs/integrations/archicad-skill-portability.md)
 - Installation Skill: `.claude/skills/setup-archicad-mcp/`
 - BIM terminology and workflow adapter: `.claude/skills/archicad-skill-adapter/`
 - Third-party notice: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)

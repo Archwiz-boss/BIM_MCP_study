@@ -1,14 +1,22 @@
 ---
 name: element-query
-description: "元素查詢與視覺化：三階段查詢協議（探索→對齊→擷取），支援依參數篩選與上色標記。觸發條件：使用者提到查詢、篩選、element query、filter、參數查詢、color-code、元素屬性、find elements。工具：get_active_schema、get_category_fields、get_field_values、query_elements_with_filter、override_element_graphics、clear_element_override。"
+description: "Queries and optionally visualizes BIM elements with a three-phase explore→align→extract protocol across Revit and the opt-in Archicad backend. Use when the user asks for 查詢、篩選、參數查詢、元素屬性、上色、element query、find elements、filter、property query、color-code, including Archicad element or Zone queries."
 ---
 
-# 元素查詢與視覺化
+# BIM 元素查詢與視覺化
+
+## Backend Routing
+
+1. Honor an explicit Revit or Archicad target.
+2. If both backends are connected and the target is ambiguous, ask which application and project to use.
+3. For Revit, continue with the existing Revit protocol below without changing its tools, identifiers, or view semantics.
+4. For Archicad, read `../archicad-skill-adapter/SKILL.md` and `../archicad-skill-adapter/references/pilot-element-query.md`, then preserve this Skill's explore→align→extract method with Archicad-native GUIDs and schemas.
+5. Never use a result or identifier from one backend in the other.
 
 ## Lessons Reference
 - **L-001**：查詢房間時必須多語言容錯（走廊/Corridor/廊道/通道/廊下）。詳見 `domain/lessons.md`。
 
-## 3-Phase Query Protocol (MANDATORY)
+## Revit 3-Phase Query Protocol (MANDATORY)
 
 ### Phase 1：探索
 `get_active_schema` → 探索作用中視圖的所有類別與元素數量。
@@ -41,14 +49,23 @@ description: "元素查詢與視覺化：三階段查詢協議（探索→對齊
 含上色標記：    Phase 1 → Phase 2 → Phase 3 → override_element_graphics
 ```
 
-## Helper Tools
+## 工具 / Tools
 
 | 工具 | 用途 |
 |------|------|
+| `get_active_schema` | Revit Phase 1：探索作用中視圖的類別與數量。 |
+| `get_category_fields` | Revit Phase 2：取得精確欄位名稱。 |
+| `get_field_values` | Revit Phase 2.5：取得欄位值分佈。 |
+| `query_elements_with_filter` | Revit Phase 3：依已驗證欄位擷取元素。 |
+| `override_element_graphics` | 在 Revit 視圖中標示結果。 |
+| `clear_element_override` | 清除 Revit 視圖標示。 |
 | `get_wall_types` | 列出牆體類型（支援搜尋篩選） |
 | `change_element_type` | 依 ID 變更元素類型（2023+ 限定） |
 | `list_family_symbols` | 瀏覽族群符號（支援名稱篩選） |
 | `get_line_styles` | 列出可用線條樣式 |
+| `discovery_list_active_archicads` | Archicad route：錨定 live project 與 port。 |
+| `archicad_discover_tools` | Archicad route：依意圖取得目前 command schema。 |
+| `archicad_call_tool` | Archicad route：執行已 discovery 的 command。 |
 
 ## Common Scenarios
 
@@ -57,4 +74,6 @@ description: "元素查詢與視覺化：三階段查詢協議（探索→對齊
 
 ## Reference
 
-詳見 `domain/element-query-workflow.md`、`domain/element-coloring-workflow.md`、`domain/room-boundary.md`、`domain/wall-check.md`。
+- Revit method: `domain/element-query-workflow.md`、`domain/element-coloring-workflow.md`、`domain/room-boundary.md`、`domain/wall-check.md`
+- Archicad adapter: `../archicad-skill-adapter/SKILL.md`
+- Archicad pilot: `../archicad-skill-adapter/references/pilot-element-query.md`
