@@ -126,6 +126,8 @@ unsupported_steps: <explicit list>
 
 ## 下一批實作順序
 
+Wave 2 的逐項工具對照、能力缺口、live-test cases 與審核勾選清單，見 [Archicad Skill 轉譯 Wave 2 實作前審核清單](archicad-skill-translation-wave2.md)。
+
 1. 完成三個 pilot 的真實 trace 測試，保留成功與 capability gap。
 2. 先升級狀態 B 中的唯讀工作流，再處理可寫工作流。
 3. 每個新 adapter 都以獨立 PR／commit 加入，包含 Revit regression evidence。

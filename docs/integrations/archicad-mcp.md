@@ -120,6 +120,7 @@ powershell -ExecutionPolicy Bypass -File scripts/setup-archicad-mcp.ps1 -Disable
 - 詳細名詞對照：`.claude/skills/archicad-skill-adapter/references/revit-archicad-terminology.md`
 - 52 個 Skill 的可攜性狀態與 live-test trace：[Revit／Archicad Skill 可攜性矩陣](archicad-skill-portability.md)
 - 第一批 pilot：`element-query`、`room-numbering`、`quantity-takeoff-excel`
+- 下一批轉譯審核：[Wave 2 實作前審核清單](archicad-skill-translation-wave2.md)
 
 adapter 只轉譯可驗證的 BIM 意圖，不保證每個 Revit tool 都有 Archicad 等價命令。找不到能力時必須回報缺口，不可猜測 API。
 

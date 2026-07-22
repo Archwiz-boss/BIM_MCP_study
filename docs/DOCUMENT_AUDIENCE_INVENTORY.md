@@ -62,6 +62,7 @@ These must remain understandable by both sides.
 | `docs/troubleshoot-first-install.md` | users | First-install troubleshooting |
 | `docs/integrations/archicad-mcp.md` | Archicad users | Optional runtime installation, rollback, and validation |
 | `docs/integrations/archicad-skill-portability.md` | BIM_MCP contributors and testers | Revit/Archicad Skill support boundary, pilot status, and evidence trace |
+| `docs/integrations/archicad-skill-translation-wave2.md` | BIM_MCP contributors and reviewers | Pre-implementation review of Wave 2 Skill, Domain, MCP mapping, gaps, and acceptance tests |
 | `THIRD_PARTY_NOTICES.md` | users and maintainers | External runtime provenance and declared licensing |
 | `docs/slides.md` | presenters | Slide index |
 | `Antigravity_MCP_Complete_Guide.md` | Antigravity users | Manual MCP setup for Antigravity client |
