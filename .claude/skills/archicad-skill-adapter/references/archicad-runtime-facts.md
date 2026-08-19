@@ -154,6 +154,52 @@ invalidates an earlier "capability gap" conclusion, so check here before recordi
 | `mep_get_mep_preference_tables` | Circular cross-section preference tables for Piping and Ventilation — the closest Archicad analogue to a Revit pipe segment size catalog |
 | `elements_filter_elements`, `elements_get_collisions` | Both referenced by the Wave 2 plan; confirmed present |
 
+## Verified response shapes
+
+Dispatched on `0.5.3` against the test project, so these are observed rather than inferred from
+schemas. Re-verify before relying on them; the schema is the contract, this is only what one
+project actually returned.
+
+### `elements_get_relations_of_elements` on Zones
+
+Returns `zoneRelations` per input element:
+
+```text
+elementsGroupedByType : [{elementType, elements[]}]   Wall, Beam, Column, Door, Window observed
+wallParts             : [{elementId, roomEdgeIndex, begDistance, endDistance}]
+beamParts             : [{elementId, begDistance, endDistance}]
+curtainWallSegmentParts : []
+```
+
+`wallParts` is the important one. It states which segment of which wall forms which edge of the
+Zone polygon, which is the Archicad counterpart of a Revit room boundary segment. Two consequences:
+
+- A room-side test does not need ray casting. "Does this wall segment have a Zone on one side" is
+  answerable directly, and it does not depend on `elements_get_details_of_elements`, which is
+  currently broken.
+- A perimeter-based takeoff can source its evidence chain here: which walls bound a room, and over
+  what length of each.
+
+Distances are geometry-layer values, so metres, and `begDistance` can be negative where the wall
+runs past the start of the Zone edge.
+
+**Not every Zone returns relations.** Of seven Zones on the active story, six returned full
+relations and one returned an empty structure; `elements_get_zone_boundaries` was also empty for
+that Zone. An empty result must be reported as distinct from a Zone that genuinely has no
+boundaries, not silently dropped.
+
+### `project_get_hotlinks`
+
+Returns only `[{location}]` — a file path per hotlink node. No module name, and **no GUID
+ownership**, so it cannot answer which elements came from which hotlink. Any workflow that needs to
+separate host content from hotlinked content cannot get that from this command.
+
+Worth knowing when reading counts from any Archicad project: the test project used here reports 13
+hotlink nodes, all pointing at its own file. Element counts therefore include hotlinked content
+unless something else excludes it, and an unscoped `Wall` enumeration in this project showed a
+visible change of GUID format partway through, consistent with crossing from host elements into
+module elements. **State whether a count includes hotlinked content.**
+
 ## Element types decompose further than Revit categories
 
 `elements_get_elements_by_type` takes an `ElementType` enum with roughly seventy values. The trap
